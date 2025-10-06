@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Markdown-it Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+  <title>嵌入Markdown文件示例</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
 </head>
 <body>
-    <textarea id="markdown" rows="10" cols="50">
-      # Hello Markdown
-    </textarea>
-    <div id="html"></div>
-    <script>
-        const md = window.markdownit();
-        const markdownText = document.getElementById("markdown").value;
-        const htmlText = md.render(markdownText);
-        document.getElementById("html").innerHTML = htmlText;
-    </script>
+  <div id="markdownContent"></div>
+
+  <script>
+    const markdownUrl = 'homepage.md';
+    const markdownContentDiv = document.getElementById('markdownContent');
+
+    fetch(markdownUrl)
+      .then(response => response.text())
+      .then(markdownText => {
+        const converter = new showdown.Converter();
+        const html = converter.makeHtml(markdownText);
+        markdownContentDiv.innerHTML = html;
+      });
+  </script>
 </body>
 </html>
