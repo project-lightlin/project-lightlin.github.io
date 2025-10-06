@@ -1,1 +1,20 @@
-<p>Test</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown-it Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+</head>
+<body>
+    <textarea id="markdown" rows="10" cols="50">
+      # Hello Markdown
+    </textarea>
+    <div id="html"></div>
+    <script>
+        const md = window.markdownit();
+        const markdownText = document.getElementById("markdown").value;
+        const htmlText = md.render(markdownText);
+        document.getElementById("html").innerHTML = htmlText;
+    </script>
+</body>
+</html>
