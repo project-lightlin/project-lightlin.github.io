@@ -49,10 +49,15 @@
       tasklists: true
     });
 
-    const markdownUrl = 'homepage.md';
+    // 带版本的 URL（优先 ?v=xxx，其次时间戳）
+    const baseMd = 'homepage.md';
+    const urlV = new URLSearchParams(location.search).get('v');
+    const bust = urlV ? `v=${encodeURIComponent(urlV)}` : `t=${Date.now()}`;
+    const markdownUrl = `${baseMd}${baseMd.includes('?') ? '&' : '?'}${bust}`;
+
     const markdownContentDiv = document.getElementById('markdownContent');
 
-    fetch(markdownUrl)
+    fetch(markdownUrl, { cache: 'no-store' })
       .then(resp => resp.ok ? resp.text() : Promise.reject(resp.status))
       .then(markdownText => {
         // 3) Markdown -> HTML
@@ -86,21 +91,19 @@
         });
 
         // 8) KaTeX 渲染（行内与块级）
-        // 使用 auto-render，在代码块和预格式文本中跳过渲染
         if (window.renderMathInElement) {
           renderMathInElement(markdownContentDiv, {
-            // 常用定界符：与 MathJax 类似
             delimiters: [
               {left: "$$", right: "$$", display: true},
               {left: "\\[", right: "\\]", display: true},
               {left: "$", right: "$", display: false},
               {left: "\\(", right: "\\)", display: false},
             ],
-            throwOnError: false,       // 公式错误不抛异常（会以红框提示）
-            strict: "warn",            // 非法语法告警
-            ignoredTags: ["script","noscript","style","textarea","pre","code"], // 避免在代码里渲染
-            trust: false,              // 静态页建议保持 false
-            macros: {                  // 可自定义宏
+            throwOnError: false,
+            strict: "warn",
+            ignoredTags: ["script","noscript","style","textarea","pre","code"],
+            trust: false,
+            macros: {
               "\\RR": "\\mathbb{R}",
               "\\NN": "\\mathbb{N}"
             }
