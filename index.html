@@ -61,7 +61,23 @@
       .then(resp => resp.ok ? resp.text() : Promise.reject(resp.status))
       .then(markdownText => {
         // 3) Markdown -> HTML
-        let html = converter.makeHtml(markdownText);
+        // *** 核心修改：对 KaTeX 公式进行预处理 ***
+        let processedMarkdownText = markdownText;
+        // 查找 $$...$$ 块级公式
+        processedMarkdownText = processedMarkdownText.replace(/\$\$([\s\S]*?)\$\$/g, (match, group1) => {
+          // 在公式内部，将 \ 替换为 \\
+          const escapedMath = group1.replace(/\\/g, '\\\\');
+          return `$$${escapedMath}$$`;
+        });
+        // 查找 $...$ 行内公式 (如果你的 Markdown 中也使用了行内公式)
+        processedMarkdownText = processedMarkdownText.replace(/\$([^\$].*?[^\$])\$/g, (match, group1) => {
+           // 在公式内部，将 \ 替换为 \\
+          const escapedMath = group1.replace(/\\/g, '\\\\');
+          return `$${escapedMath}$`;
+        });
+
+
+        let html = converter.makeHtml(processedMarkdownText);
 
         // 4) DOM 化，先处理 mermaid 代码块
         const container = document.createElement('div');
@@ -101,6 +117,7 @@
             ],
             throwOnError: false,
             strict: "warn",
+            // 确保 <pre><code> 标签中的 KaTeX 不被渲染，因为它们通常是代码示例
             ignoredTags: ["script","noscript","style","textarea","pre","code"],
             trust: false,
             macros: {
