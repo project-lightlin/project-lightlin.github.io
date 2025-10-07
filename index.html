@@ -1,22 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>嵌入Markdown文件示例</title>
+  <meta charset="UTF-8" />
+  <title>嵌入Markdown + Mermaid</title>
+  <!-- Showdown -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    /* 可选：Mermaid 容器的样式 */
+    .mermaid { margin: 1em 0; }
+    pre > code.language-mermaid { display: none; } /* 渲染后隐藏原始代码块 */
+  </style>
 </head>
 <body>
-  <div id="markdownContent"></div>
+  <div id="markdownContent">加载中...</div>
 
   <script>
+    // 1) 初始化 mermaid（在真正渲染前先初始化）
+    mermaid.initialize({
+      startOnLoad: false,     // 我们手动触发
+      securityLevel: 'loose', // 允许外部样式/链接，静态站点常用
+      theme: 'default'        // 或 'dark'、'neutral'，也可跟随 prefers-color-scheme
+    });
+
+    // 2) 拉取 Markdown
     const markdownUrl = 'homepage.md';
     const markdownContentDiv = document.getElementById('markdownContent');
+    const converter = new showdown.Converter({
+      tables: true,
+      ghCodeBlocks: true,     // 让 fenced code block 按 GitHub 风格处理
+      strikethrough: true,
+      tasklists: true
+    });
 
     fetch(markdownUrl)
-      .then(response => response.text())
+      .then(resp => resp.ok ? resp.text() : Promise.reject(resp.status))
       .then(markdownText => {
-        const converter = new showdown.Converter();
-        const html = converter.makeHtml(markdownText);
-        markdownContentDiv.innerHTML = html;
+        // 3) Markdown -> HTML
+        let html = converter.makeHtml(markdownText);
+
+        // 4) 将 ```mermaid 代码块替换为 <div class="mermaid">...</div>
+        // Showdown 通常会把 ```xxx 渲染为 <pre><code class="language-xxx">...</code></pre>
+        const container = document.createElement('div');
+        container.innerHTML = html;
+
+        // 找到所有 mermaid 代码块
+        const codeBlocks = container.querySelectorAll('pre > code.language-mermaid, pre > code.mermaid');
+        codeBlocks.forEach(codeEl => {
+          const preEl = codeEl.parentElement;
+          const graphDefinition = codeEl.textContent; // 取原始文本
+          const mermaidDiv = document.createElement('div');
+          mermaidDiv.className = 'mermaid';
+          mermaidDiv.textContent = graphDefinition;
+
+          // 用 mermaid 容器替换原 pre>code
+          preEl.parentElement.replaceChild(mermaidDiv, preEl);
+        });
+
+        // 5) 注入到页面
+        markdownContentDiv.innerHTML = '';
+        markdownContentDiv.appendChild(container);
+
+        // 6) 触发 mermaid 渲染
+        // 方式A：对页面全部 mermaid 容器批量渲染
+        mermaid.run({ querySelector: '.mermaid' });
+
+        // 如需逐个手动渲染也可用 mermaid.render(id, definition)...
+      })
+      .catch(err => {
+        markdownContentDiv.textContent = '加载失败：' + err;
       });
   </script>
 </body>
