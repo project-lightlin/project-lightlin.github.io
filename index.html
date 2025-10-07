@@ -2,37 +2,55 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>嵌入Markdown + Mermaid</title>
+  <title>Markdown + Mermaid + KaTeX + 代码高亮</title>
+
   <!-- Showdown -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+
   <!-- Mermaid -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <!-- Highlight.js（代码高亮）-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <!-- KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+
   <style>
-    /* 可选：Mermaid 容器的样式 */
     .mermaid { margin: 1em 0; }
-    pre > code.language-mermaid { display: none; } /* 渲染后隐藏原始代码块 */
+    pre > code.language-mermaid { display: none; }
+    pre code { white-space: pre; }
+    pre { overflow: auto; padding: 0.8em; border-radius: 6px; background: #f6f8fa; }
+    @media (prefers-color-scheme: dark) {
+      body { color: #ddd; background: #0b0d11; }
+      pre { background: #0e1116; }
+    }
   </style>
 </head>
 <body>
   <div id="markdownContent">加载中...</div>
 
   <script>
-    // 1) 初始化 mermaid（在真正渲染前先初始化）
+    // 1) 初始化 mermaid
     mermaid.initialize({
-      startOnLoad: false,     // 我们手动触发
-      securityLevel: 'loose', // 允许外部样式/链接，静态站点常用
-      theme: 'default'        // 或 'dark'、'neutral'，也可跟随 prefers-color-scheme
+      startOnLoad: false,
+      securityLevel: 'loose',
+      theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
     });
 
-    // 2) 拉取 Markdown
-    const markdownUrl = 'homepage.md';
-    const markdownContentDiv = document.getElementById('markdownContent');
+    // 2) Markdown 解析器
     const converter = new showdown.Converter({
       tables: true,
-      ghCodeBlocks: true,     // 让 fenced code block 按 GitHub 风格处理
+      ghCodeBlocks: true,
       strikethrough: true,
       tasklists: true
     });
+
+    const markdownUrl = 'homepage.md';
+    const markdownContentDiv = document.getElementById('markdownContent');
 
     fetch(markdownUrl)
       .then(resp => resp.ok ? resp.text() : Promise.reject(resp.status))
@@ -40,33 +58,54 @@
         // 3) Markdown -> HTML
         let html = converter.makeHtml(markdownText);
 
-        // 4) 将 ```mermaid 代码块替换为 <div class="mermaid">...</div>
-        // Showdown 通常会把 ```xxx 渲染为 <pre><code class="language-xxx">...</code></pre>
+        // 4) DOM 化，先处理 mermaid 代码块
         const container = document.createElement('div');
         container.innerHTML = html;
 
-        // 找到所有 mermaid 代码块
         const codeBlocks = container.querySelectorAll('pre > code.language-mermaid, pre > code.mermaid');
         codeBlocks.forEach(codeEl => {
           const preEl = codeEl.parentElement;
-          const graphDefinition = codeEl.textContent; // 取原始文本
+          const graphDefinition = codeEl.textContent;
           const mermaidDiv = document.createElement('div');
           mermaidDiv.className = 'mermaid';
           mermaidDiv.textContent = graphDefinition;
-
-          // 用 mermaid 容器替换原 pre>code
           preEl.parentElement.replaceChild(mermaidDiv, preEl);
         });
 
-        // 5) 注入到页面
+        // 5) 注入
         markdownContentDiv.innerHTML = '';
         markdownContentDiv.appendChild(container);
 
-        // 6) 触发 mermaid 渲染
-        // 方式A：对页面全部 mermaid 容器批量渲染
+        // 6) Mermaid 渲染
         mermaid.run({ querySelector: '.mermaid' });
 
-        // 如需逐个手动渲染也可用 mermaid.render(id, definition)...
+        // 7) 代码高亮
+        markdownContentDiv.querySelectorAll('pre code').forEach(block => {
+          if (block.classList.contains('language-mermaid') || block.classList.contains('mermaid')) return;
+          hljs.highlightElement(block);
+        });
+
+        // 8) KaTeX 渲染（行内与块级）
+        // 使用 auto-render，在代码块和预格式文本中跳过渲染
+        if (window.renderMathInElement) {
+          renderMathInElement(markdownContentDiv, {
+            // 常用定界符：与 MathJax 类似
+            delimiters: [
+              {left: "$$", right: "$$", display: true},
+              {left: "\\[", right: "\\]", display: true},
+              {left: "$", right: "$", display: false},
+              {left: "\\(", right: "\\)", display: false},
+            ],
+            throwOnError: false,       // 公式错误不抛异常（会以红框提示）
+            strict: "warn",            // 非法语法告警
+            ignoredTags: ["script","noscript","style","textarea","pre","code"], // 避免在代码里渲染
+            trust: false,              // 静态页建议保持 false
+            macros: {                  // 可自定义宏
+              "\\RR": "\\mathbb{R}",
+              "\\NN": "\\mathbb{N}"
+            }
+          });
+        }
       })
       .catch(err => {
         markdownContentDiv.textContent = '加载失败：' + err;
