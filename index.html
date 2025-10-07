@@ -20,13 +20,108 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 
   <style>
+    /* --- 全局样式 --- */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* 通用字体栈 */
+      color: #24292e; /* 默认文本颜色 */
+      background-color: #ffffff; /* *** 修改：全局背景色为白色 *** */
+    }
+
+    /* --- 表格样式 --- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.9em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #e1e4e8;
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f6f8fa;
+      font-weight: 600;
+      color: #24292e;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f8ff;
+    }
+
+    /* --- 代码块（行间代码）样式 --- */
+    pre {
+      overflow: auto;
+      padding: 0.8em;
+      border-radius: 6px;
+      background-color: #f6f8fa; /* *** 修改：代码块使用浅灰色背景 *** */
+      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; /* 代码块使用等宽字体 */
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+
+    pre code {
+      display: inline;
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+      line-height: inherit;
+      word-wrap: normal;
+      background-color: transparent; /* 重置代码块内 code 的背景 */
+      border: 0;
+      box-shadow: none;
+    }
+
+    /* --- 行内代码样式 --- */
+    code:not(pre > code) {
+      font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace; /* 行内代码使用等宽字体 */
+      background-color: #f6f8fa; /* *** 修改：行内代码也使用浅灰色背景 *** */
+      color: #c7254e; /* 行内代码文字颜色 */
+      padding: 0.2em 0.4em;
+      margin: 0;
+      border-radius: 3px;
+      font-size: 85%;
+      white-space: nowrap;
+    }
+
+    /* --- Mermaid 样式 --- */
     .mermaid { margin: 1em 0; }
     pre > code.language-mermaid { display: none; }
-    pre code { white-space: pre; }
-    pre { overflow: auto; padding: 0.8em; border-radius: 6px; background: #f6f8fa; }
+
+    /* --- Dark Mode 适配 --- */
     @media (prefers-color-scheme: dark) {
-      body { color: #ddd; background: #0b0d11; }
-      pre { background: #0e1116; }
+      body {
+        color: #c9d1d9;
+        background: #0d1117; /* *** 暗黑模式下恢复黑色背景 *** */
+      }
+      th, td {
+        border: 1px solid #30363d;
+      }
+      th {
+        background-color: #161b22;
+        color: #c9d1d9;
+      }
+      tr:nth-child(even) {
+        background-color: #11171f;
+      }
+      tr:hover {
+        background-color: #1f232a;
+      }
+      pre {
+        background-color: #161b22; /* *** 暗黑模式下，代码块使用稍微深一些的灰色 *** */
+      }
+      /* 暗黑模式下行内代码的背景和颜色 */
+      code:not(pre > code) {
+        background-color: #161b22; /* *** 暗黑模式下，行内代码也使用和 pre 相同的灰色 *** */
+        color: #f08d49;
+      }
     }
   </style>
 </head>
@@ -61,21 +156,16 @@
       .then(resp => resp.ok ? resp.text() : Promise.reject(resp.status))
       .then(markdownText => {
         // 3) Markdown -> HTML
-        // *** 核心修改：对 KaTeX 公式进行预处理 ***
         let processedMarkdownText = markdownText;
-        // 查找 $$...$$ 块级公式
+        // 对 KaTeX 公式进行预处理
         processedMarkdownText = processedMarkdownText.replace(/\$\$([\s\S]*?)\$\$/g, (match, group1) => {
-          // 在公式内部，将 \ 替换为 \\
           const escapedMath = group1.replace(/\\/g, '\\\\');
           return `$$${escapedMath}$$`;
         });
-        // 查找 $...$ 行内公式 (如果你的 Markdown 中也使用了行内公式)
         processedMarkdownText = processedMarkdownText.replace(/\$([^\$].*?[^\$])\$/g, (match, group1) => {
-           // 在公式内部，将 \ 替换为 \\
           const escapedMath = group1.replace(/\\/g, '\\\\');
           return `$${escapedMath}$`;
         });
-
 
         let html = converter.makeHtml(processedMarkdownText);
 
@@ -117,7 +207,6 @@
             ],
             throwOnError: false,
             strict: "warn",
-            // 确保 <pre><code> 标签中的 KaTeX 不被渲染，因为它们通常是代码示例
             ignoredTags: ["script","noscript","style","textarea","pre","code"],
             trust: false,
             macros: {
