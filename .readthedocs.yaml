@@ -28,14 +28,6 @@ build:
       # Test jsdoc
       - npm install -g jsdoc
 
-    pre_build:
-      - shot-scraper install
-      - shot-scraper https://datasette.io/ --height 800 -o docs/static/datasette.png
-
-    post_build:
-      # Download a PDF sample and expose it
-      - mkdir -p $READTHEDOCS_OUTPUT/pdf/
-      - wget https://pdfobject.com/pdf/sample.pdf -O $READTHEDOCS_OUTPUT/pdf/my-file.pdf
 
 
 sphinx:
