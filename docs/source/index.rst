@@ -1,5 +1,9 @@
-Welcome to Lumache's documentation!
+About Us
 ===================================
+
+.. image:: _static/lightlin-banner.png
+   :width: 512px
+   :align: center
 
 **Lumache** (/lu'make/) is a Python library for cooks and food lovers
 that creates recipes mixing random ingredients.
@@ -12,6 +16,10 @@ how to :ref:`installation` the project.
 .. note::
 
    This project is under active development.
+
+Contributors
+------------
+
 
 Contents
 --------
