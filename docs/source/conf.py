@@ -3,12 +3,12 @@
 # -- Project information
 
 project = 'Project-LiGHTLIN'
-copyright = '2025, LiGHTLIN'
+copyright = '2025, Project-LiGHTLIN'
 author = 'LiGHTLIN'
 
-release = '1.0'
+release = ''
 version = 'Official'
-
+html_title = "Project-LiGHTLIN"
 # -- General configuration
 
 extensions = [
@@ -29,7 +29,8 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = 'pydata_sphinx_theme'
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
