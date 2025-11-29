@@ -26,5 +26,6 @@ Contents
 
 .. toctree::
 
+   SmartQSM
    usage
    api

@@ -17,6 +17,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.highlighting',  # Enable syntax highlighting for code blocks
 ]
 
 intersphinx_mapping = {
