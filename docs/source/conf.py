@@ -32,5 +32,12 @@ templates_path = ['_templates']
 #html_theme = 'sphinx_rtd_theme'
 html_theme = 'pydata_sphinx_theme'
 
+# 添加缓存控制meta标签
+html_meta = {
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+}
+
 # -- Options for EPUB output
 epub_show_urls = 'footnote'

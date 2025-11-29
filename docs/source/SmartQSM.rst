@@ -4,6 +4,8 @@ SmartQSM is a quantitative structure model for individual-tree 3D reconstruction
 
 In the process of website construction, come and take a look again in a while! `Visit here <https://github.com/project-lightlin/SmartQSM>`_
 
+test
+
 .. _installation:
 
 Installation
