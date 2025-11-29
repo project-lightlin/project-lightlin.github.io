@@ -39,5 +39,17 @@ html_meta = {
     'Expires': '0'
 }
 
+# 添加版本号或时间戳到静态资源URL，实现缓存破坏
+# 使用当前时间作为构建标识符
+import time
+build_id = str(int(time.time()))
+
+# 自定义CSS和JS文件的URL参数
+def setup(app):
+    # 添加构建ID到静态文件URL
+    app.add_config_value('build_id', build_id, 'env')
+    # 这会使Sphinx在生成HTML时使用新的URL参数
+
+
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
