@@ -1,0 +1,21 @@
+/* Hide the top navigation bar */
+.wy-nav-top {
+    display: none;
+}
+
+/* Hide the home icon and remove empty line */
+.wy-side-nav-search a.icon-home {
+    color: transparent; /* Hide the home icon */
+    font-size: 0; /* Remove space caused by empty text nodes */
+}
+
+/* Ensure logo is properly displayed */
+.wy-side-nav-search a.icon-home img.logo {
+    font-size: initial; /* Reset font size for logo */
+    color: initial; /* Reset color for logo */
+}
+
+/* Adjust margin for the content area */
+.wy-nav-content-wrap {
+    margin-top: 0;
+}

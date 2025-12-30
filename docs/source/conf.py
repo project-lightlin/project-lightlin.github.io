@@ -2,13 +2,14 @@
 
 # -- Project information
 
-project = 'Project-LiGHTLIN'
-copyright = '2025, Project-LiGHTLIN'
+project = ''
+copyright = '2025-2026, LiGHTLIN'
 author = 'LiGHTLIN'
 
 release = ''
-version = 'Official'
-html_title = "Project-LiGHTLIN"
+version = 'Long-term maintenance'
+html_title = "Project LiGHTLIN"
+
 # -- General configuration
 
 extensions = [
@@ -17,6 +18,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
+    'sphinx.ext.extlinks',  # 添加支持外部链接的扩展
 ]
 
 intersphinx_mapping = {
@@ -29,18 +31,26 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-#html_theme = 'sphinx_rtd_theme'
-html_theme = 'pydata_sphinx_theme'
+html_theme = 'sphinx_rtd_theme'
 
-html_static_path = ['_static']
+# Logo
+html_logo = '_static/lightlin-logo.png'
 
-# 添加缓存控制meta标签
+# Custom CSS and JavaScript
+html_static_path = ['_static']  # Ensure static files are copied to output
+html_css_files = [
+    'custom.css',
+]
+html_js_files = [
+    'custom.js',
+]
+
 html_meta = {
     'Cache-Control': 'no-cache, no-store, must-revalidate',
     'Pragma': 'no-cache',
     'Expires': '0'
 }
 
-
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
+
