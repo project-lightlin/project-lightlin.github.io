@@ -18,7 +18,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-    'sphinx.ext.extlinks',  # 添加支持外部链接的扩展
+    'sphinx.ext.extlinks',
+    'sphinxemoji.sphinxemoji',
 ]
 
 intersphinx_mapping = {
@@ -53,4 +54,4 @@ html_meta = {
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
-
+

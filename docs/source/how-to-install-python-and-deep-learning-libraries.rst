@@ -44,6 +44,24 @@ If your computer is running macOS or is not equipped with an NVIDIA graphics car
    If this happens, try updating your graphics card drivers first and check again. 
    Otherwise, your graphics card does not support CUDA.
 
+Now, please check if your computer meets the basic requirements for running. If it does, you can continue with the next steps. Otherwise, your computer cannot run the project participating in LiGHTLIN through the following configuration methods.
+
++-----------------------------+----------------------------------+-------------------------------------+
+| **Platform**                | CPU only                         | NVIDIA GPU with CUDA >= 11.8        |
+|                             |                                  |                                     |
+|                             | or nonuse GPU                    |                                     |
+|                             |                                  |                                     |
+|                             | or non-CUDA GPU                  |                                     |
+|                             |                                  |                                     |
+|                             | or NVIDIA GPU with CUDA < 11.8   |                                     |
++=============================+==================================+=====================================+
+| Windows 10/11 64-bit        | |:x:|                            | |:white_check_mark:|                |
++-----------------------------+----------------------------------+-------------------------------------+
+| Linux x86-64                | |:white_check_mark:|             | |:white_check_mark:|                |
++-----------------------------+----------------------------------+-------------------------------------+
+| Otherwise (including macOS) | |:x:|                            | |:x:|                               |
++-----------------------------+----------------------------------+-------------------------------------+
+
 3. Download and install Miniconda
 ---------------------------------
 
@@ -53,39 +71,45 @@ If your computer has already installed Anaconda or Miniconda, please skip this s
 | **Platform**   | **Installation Steps**                                                                                                                |
 +================+=======================================================================================================================================+
 | **Windows**    | 1. Go to `Miniconda Archive <https://repo.anaconda.com/miniconda/>`_.                                                                 |
-|                | 2. Download and install the Miniconda3 latest Windows installer (ending with **x86_64.exe**).                                         |
+|                | 2. Download `Miniconda3-latest-Windows-x86_64.exe`.                                                                                   |
 |                | 3. Run the installer.                                                                                                                 | 
 |                | 4. (Recommended) Change the default installation driver (C:).                                                                         |
 |                | 5. Complete the installation.                                                                                                         |
 +----------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | **Linux**      | 1. Go to `Miniconda Archive <https://repo.anaconda.com/miniconda/>`_.                                                                 |
-|                | 2. Download the Miniconda3 latest Linux installer (ending with **x86_64.sh** for *Intel/AMD CPUs* or **aarch64.sh** for *ARM CPUs*).  |
+|                | 2. Download `Miniconda3-latest-Linux-x86_64.sh`.                                                                                      | 
 |                | 3. Open *Terminal* in the download folder.                                                                                            |
-|                | 4. Type ``./Miniconda3-latest-Linux-x86_64.sh`` (Replace **Miniconda3-latest-Linux-x86_64.sh** with your downloaded file name).       |
+|                | 4. Type ``./Miniconda3-latest-Linux-x86_64.sh``.                                                                                      |
 |                | 5. Type ``yes`` and press **Enter** for any prompt that requires the user to type ``yes`` or ``no``.                                  |
 |                | 6. Close and reopen the terminal for changes to take effect.                                                                          |
 +----------------+---------------------------------------------------------------------------------------------------------------------------------------+
-| **macOS**      | 1. Go to `Miniconda Archive <https://repo.anaconda.com/miniconda/>`_.                                                                 |
-|                | 2. Download the Miniconda3 latest macOS installer (ending with **arm64.pkg**).                                                        |
-|                | 3. Run the installer and follow the prompts.                                                                                          |
-|                | 4. Close and reopen the terminal for changes to take effect.                                                                          |
-+----------------+---------------------------------------------------------------------------------------------------------------------------------------+
+..
+     the Miniconda3 latest Linux installer ending with **x86_64.sh** for *Intel/AMD CPUs* or **aarch64.sh** for *ARM CPUs*
+     (Replace **Miniconda3-latest-Linux-x86_64.sh** with your downloaded file name).
+    | **macOS**      | 1. Go to `Miniconda Archive <https://repo.anaconda.com/miniconda/>`_.                                                                 |
+    |                | 2. Download the Miniconda3 latest macOS installer (ending with **arm64.pkg**).                                                        |
+    |                | 3. Run the installer and follow the prompts.                                                                                          |
+    |                | 4. Close and reopen the terminal for changes to take effect.                                                                          |
+    +----------------+---------------------------------------------------------------------------------------------------------------------------------------+
+
+
 
 4. Launch CONDA environment (for daily use)
 -------------------------------------------
 
-+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Platform**   | **Steps to Launch**                                                                                                                                    |
-+================+========================================================================================================================================================+
-| **Windows**    | 1. Open *Start menu*.                                                                                                                                  |
-|                | 2. Find and run *Anaconda Prompt*.                                                                                                                     |
-+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Linux**      | 1. Open *Terminal*.                                                                                                                                    |
-|                | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
-+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **macOS**      | 1. Open *Terminal*.                                                                                                                                    |
-|                | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
-+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Platform** | **Steps to Launch**                                                                                                                                    |
++==============+========================================================================================================================================================+
+| **Windows**  | 1. Open *Start menu*.                                                                                                                                  |
+|              | 2. Find and run *Anaconda Prompt*.                                                                                                                     |
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **Linux**    | 1. Open *Terminal*.                                                                                                                                    |
+|              | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
++--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+..
+    | **macOS**    | 1. Open *Terminal*.                                                                                                                                    |
+    |              | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
+    +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 5. Create a Python 3.12 virtual environment
 -------------------------------------------
@@ -105,56 +129,74 @@ Here, ``lightlin`` needs to be replaced with the virtual environment name you ta
 7. Install PyTorch and popular point-cloud-based deep learning libraries
 ------------------------------------------------------------------------
 
+If you encounter any errors while performing the steps correctly, it means that your system environment is not compatible and you should replace your computer for use.
+
 Please select the corresponding command based on the result from Step 2 and run it in the activated virtual environment (such as ``lightlin``).
 
 1. Install `PyTorch <https://pytorch.org/get-started/locally/>`_
 
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **CUDA Version**        | **PyTorch Version** | **Command**                                                                                                                                            |
+| **CUDA Version**        | **PyTorch**         | **Command**                                                                                                                                            |
 +=========================+=====================+========================================================================================================================================================+
-| **>= 12.6**             | **cu126**           | ``pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu126``                                  |
+| **>= 12.8**             | **cu128**           | **NVIDIA Blackwell-architecture GPUs such as RTX 50 series must comply**                                                                               |
+|                         |                     |                                                                                                                                                        |
+|                         |                     | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **>= 11.8 and < 12.6**  | **cu118**           | ``pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cu118``                                  |
+| **>= 12.6**             | **cu126**           | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu126``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| < 11.8                  |                     | Try updating your NVIDIA drivers and repeat step 2 to check the supported CUDA version. Otherwise, use **CPU** version.                                |
+| **>= 11.8**             | **cu118**           | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu118``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **Unsupported**         | **cpu**             | ``pip install torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1 --index-url https://download.pytorch.org/whl/cpu``                                    |
+| **Not using CUDA**      | **cpu**             | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cpu``                                    |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-.. note::
-    The macOS, non-NVIDIA GPUs, and older NVIDIA GPUs are all considered **unsupported** CUDA platforms.
+..
+    .. note::
+        The macOS, non-NVIDIA GPUs, and older NVIDIA GPUs are all considered **unsupported** CUDA platforms.
 
 2. Install `SpConv: Spatially Sparse Convolution Library <https://github.com/traveller59/spconv>`_
 
-+---------------------+---------------------------------------------------------------+
-| **PyTorch Version** | **Command**                                                   |
-+=====================+===============================================================+
-| **cu126**           | ``pip install spconv-cu126``                                  |
-+---------------------+---------------------------------------------------------------+
-| **cu118**           | ``pip install spconv-cu118``                                  |
-+---------------------+---------------------------------------------------------------+
-| **cpu**             | ``pip install spconv``                                        |
-+---------------------+---------------------------------------------------------------+
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **PyTorch Version** | **Command**                                                                                                                                                                                                   |
++=====================+===============================================================================================================================================================================================================+
+| **cu128**           | For Windows:                                                                                                                                                                                                  |
+|                     |                                                                                                                                                                                                               |
+|                     | ``pip install "https://raw.githubusercontent.com/MrForExample/Comfy3D_Pre_Builds/refs/heads/main/_Build_Wheels/_Wheels_win_py312_torch2.7.0_cu128/spconv-2.3.8-cp312-cp312-win_amd64.whl"``                   |
+|                     |                                                                                                                                                                                                               |
+|                     | For Linux x86-64:                                                                                                                                                                                             |
+|                     |                                                                                                                                                                                                               |
+|                     | ``pip install https://raw.githubusercontent.com/MrForExample/Comfy3D_Pre_Builds/refs/heads/main/_Build_Wheels/_Wheels_linux_py312_torch2.7.0_cu128/spconv_cu126-2.3.8-cp312-cp312-manylinux_2_28_x86_64.whl`` |
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **cu126**           | ``pip install spconv-cu126``                                                                                                                                                                                  |
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **cu118**           | ``pip install spconv-cu118``                                                                                                                                                                                  |
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| **cpu**             | Only for Linux:                                                                                                                                                                                               |
+|                     | ``pip install spconv``                                                                                                                                                                                        |
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 3. Install `PyG (Pytorch Geometric) <https://pytorch-geometric.readthedocs.io/en/latest/index.html>`_
 
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | **PyTorch Version** | **Command**                                                                                                                           |
 +=====================+=======================================================================================================================================+
+| **cu128**           | .. code-block:: bash                                                                                                                  |
+|                     |                                                                                                                                       |
+|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.0+cu128.html |
+|                     |     pip install torch_geometric                                                                                                       |
++---------------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | **cu126**           | .. code-block:: bash                                                                                                                  |
 |                     |                                                                                                                                       |
+|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.0+cu126.html |
 |                     |     pip install torch_geometric                                                                                                       |
-|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.1+cu126.html |
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | **cu118**           | .. code-block:: bash                                                                                                                  |
 |                     |                                                                                                                                       |
+|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.0+cu118.html |
 |                     |     pip install torch_geometric                                                                                                       |
-|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.1+cu118.html |
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------+
 | **cpu**             | .. code-block:: bash                                                                                                                  |
 |                     |                                                                                                                                       |
+|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.0+cpu.html   |
 |                     |     pip install torch_geometric                                                                                                       |
-|                     |     pip install pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.7.1+cpu.html   |
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------+
 
 4. Install `NVIDIA Kaolin Library <https://developer.nvidia.com/kaolin>`_
@@ -162,14 +204,14 @@ Please select the corresponding command based on the result from Step 2 and run 
 +---------------------+-----------------------------------------------------------------------------------------------------------+
 | **PyTorch Version** | **Command**                                                                                               |
 +=====================+===========================================================================================================+
-| **cu126**           | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.1_cu126.html`` |
+| **cu128**           | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.0_cu128.html`` |
 +---------------------+-----------------------------------------------------------------------------------------------------------+
-| **cu118**           | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.1_cu118.html`` |
+| **cu126**           | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.0_cu126.html`` |
 +---------------------+-----------------------------------------------------------------------------------------------------------+
-| **cpu**             | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.1_cpu.html``   |
+| **cu118**           | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.0_cu118.html`` |
 +---------------------+-----------------------------------------------------------------------------------------------------------+
-
-
+| **cpu**             | ``pip install kaolin==0.18.0 -f https://nvidia-kaolin.s3.us-east-2.amazonaws.com/torch-2.7.0_cpu.html``   |
++---------------------+-----------------------------------------------------------------------------------------------------------+
 
 8. Verify Installation
 ----------------------
@@ -186,12 +228,14 @@ To ensure everything works properly later, please check your installation with t
 
     import torch
     import spconv
+    import torch_scatter
     import kaolin
+    import torch_geometric
+    torch.cuda.is_available()
 
 If no errors are reported, everything has been installed successfully! 
 
 Finally, you can type ``exit()`` and press **Enter** to exit Python.
-
 
 9. Postscript (for daily use)
 -----------------------------
@@ -219,3 +263,10 @@ or using command-line arguments like
     python your_script.py -h
 
 We also recommend that you master the basic usage methods of `conda <https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html>`_ and `pip <https://pip.pypa.io/en/stable/user_guide/>`_.
+
+For example, cleaning up after installing the library to save disk space.
+
+.. code-block:: bash
+
+    conda clean -a
+    pip cache purge
