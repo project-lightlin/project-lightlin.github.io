@@ -83,6 +83,7 @@ If your computer has already installed Anaconda or Miniconda, please skip this s
 |                | 5. Type ``yes`` and press **Enter** for any prompt that requires the user to type ``yes`` or ``no``.                                  |
 |                | 6. Close and reopen the terminal for changes to take effect.                                                                          |
 +----------------+---------------------------------------------------------------------------------------------------------------------------------------+
+
 ..
      the Miniconda3 latest Linux installer ending with **x86_64.sh** for *Intel/AMD CPUs* or **aarch64.sh** for *ARM CPUs*
      (Replace **Miniconda3-latest-Linux-x86_64.sh** with your downloaded file name).
@@ -106,6 +107,7 @@ If your computer has already installed Anaconda or Miniconda, please skip this s
 | **Linux**    | 1. Open *Terminal*.                                                                                                                                    |
 |              | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
 +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+
 ..
     | **macOS**    | 1. Open *Terminal*.                                                                                                                                    |
     |              | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
@@ -137,15 +139,24 @@ Please select the corresponding command based on the result from Step 2 and run 
 
 .. note::
 
-    For non NVIDIA Blackwell architecture GPUs, you can choose to install **cu126** or **cu118**, but *do not install cu128*, otherwise it will cause the following error:
-    ``N > 0 assert faild. CUDA kernel launch blocks must be positive, but got N= 0``
+    For NVIDIA Blackwell-architecture GPUs (such as RTX 50 series), YOU MUST INSTALL **cu128**! Please refer to `here <https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)#Blackwell_dies>`_ for the specific products included. Otherwise, PyTorch will cause an error like
+    
+    .. code-block:: bash     
+
+        NVIDIA GeForce RTX 5070 Ti with CUDA capability sm_120 is not compatible with the current PyTorch installation.
+        The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_61 sm_70 sm_75 sm_80 sm_86 sm_90 compute_37.
+        If you want to use the NVIDIA GeForce RTX 5070 Ti GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
+
+    For non NVIDIA Blackwell-architecture GPUs, you can choose to install **cu126** or **cu118**, but *DO NOT INSTALL cu128*, otherwise spconv will cause an error like
+
+    .. code-block:: bash     
+        
+        N > 0 assert faild. CUDA kernel launch blocks must be positive, but got N= 0
 
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **CUDA Version**        | **PyTorch**         | **Command**                                                                                                                                            |
 +=========================+=====================+========================================================================================================================================================+
-| >= 12.8                 | **cu128**           | **ONLY** NVIDIA Blackwell-architecture GPUs such as RTX 50 series must comply                                                                          |
-|                         |                     |                                                                                                                                                        |
-|                         |                     | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128``                                  |
+| **>= 12.8**             | **cu128**           | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **>= 12.6**             | **cu126**           | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu126``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -153,6 +164,7 @@ Please select the corresponding command based on the result from Step 2 and run 
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **Not using CUDA**      | **cpu**             | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cpu``                                    |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
+
 ..
     .. note::
         The macOS, non-NVIDIA GPUs, and older NVIDIA GPUs are all considered **unsupported** CUDA platforms.
@@ -174,8 +186,7 @@ Please select the corresponding command based on the result from Step 2 and run 
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **cu118**           | ``pip install spconv-cu118``                                                                                                                                                                                  |
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| **cpu**             | Only for Linux:                                                                                                                                                                                               |
-|                     | ``pip install spconv``                                                                                                                                                                                        |
+| **cpu**             | ``pip install spconv``                                                                                                                                                                                        |
 +---------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 3. Install `PyG (Pytorch Geometric) <https://pytorch-geometric.readthedocs.io/en/latest/index.html>`_
@@ -269,9 +280,23 @@ or using command-line arguments like
 
 We also recommend that you master the basic usage methods of `conda <https://docs.conda.io/projects/conda/en/latest/user-guide/cheatsheet.html>`_ and `pip <https://pip.pypa.io/en/stable/user_guide/>`_.
 
-For example, cleaning up after installing the library to save disk space.
+For example:
+
+- Clean after installing the library to save disk space:
 
 .. code-block:: bash
 
     conda clean -a
     pip cache purge
+
+- Exit the current virtual environment to activate the default (base) environment:
+
+.. code-block:: bash
+
+    conda deactivate
+
+- Remove a virtual environment:
+
+.. code-block:: bash
+
+    conda env remove -n your_env_name
