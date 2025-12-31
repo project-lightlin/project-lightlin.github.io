@@ -135,10 +135,15 @@ Please select the corresponding command based on the result from Step 2 and run 
 
 1. Install `PyTorch <https://pytorch.org/get-started/locally/>`_
 
+.. note::
+
+    For non NVIDIA Blackwell architecture GPUs, you can choose to install **cu126** or **cu118**, but *do not install cu128*, otherwise it will cause the following error:
+    ``N > 0 assert faild. CUDA kernel launch blocks must be positive, but got N= 0``
+
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **CUDA Version**        | **PyTorch**         | **Command**                                                                                                                                            |
 +=========================+=====================+========================================================================================================================================================+
-| **>= 12.8**             | **cu128**           | **NVIDIA Blackwell-architecture GPUs such as RTX 50 series must comply**                                                                               |
+| >= 12.8                 | **cu128**           | **ONLY** NVIDIA Blackwell-architecture GPUs such as RTX 50 series must comply                                                                          |
 |                         |                     |                                                                                                                                                        |
 |                         |                     | ``pip install torch==2.7.0 torchvision==0.22.0 torchaudio==2.7.0 --index-url https://download.pytorch.org/whl/cu128``                                  |
 +-------------------------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
