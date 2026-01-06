@@ -102,7 +102,7 @@ If your computer has already installed Anaconda or Miniconda, please skip this s
 | **Platform** | **Steps to Launch**                                                                                                                                    |
 +==============+========================================================================================================================================================+
 | **Windows**  | 1. Open *Start menu*.                                                                                                                                  |
-|              | 2. Find and run *Anaconda Prompt*.                                                                                                                     |
+|              | 2. Find and run *Anaconda Prompt* as **Administrator**!                                                                                                |
 +--------------+--------------------------------------------------------------------------------------------------------------------------------------------------------+
 | **Linux**    | 1. Open *Terminal*.                                                                                                                                    |
 |              | 2. If you follow Step 3, there will be ``(base)`` at the beginning of the line, indicating that the conda environment has been automatically activated.|
@@ -257,14 +257,35 @@ Finally, you can type ``exit()`` and press **Enter** to exit Python.
 -----------------------------
 
 In the virtual environment,
-you need to master how to change directories:
+you need to master how to change the **working directory** 
+
+.. _working_directory:
 
 .. code-block:: bash
 
-    cd "/path/to/your/project"  # For Linux/macOS
+    cd "/path/of/your/project"  # For Linux
 
     REM For Windows
-    cd /d "D:\path\to\your\project"
+    cd /d "D:\path\of\your\project"
+
+.. note::
+
+    The **working directory** is the folder where your commands are executed.
+    You can see it in the prompt before you type a command, e.g.:
+
+    - On Linux: the path shown before the ``$``, ``#`` etc, e.g. 
+    
+      ``ubuntu@linuxopsys:~/path/of/your/project$``
+
+      ``(lightlin) [root@pc project]#`` 
+        
+      (in the latter case, run ``pwd`` to show the full path ``/path/of/your/project``).
+
+    - On Windows: the path shown before the ``>``, e.g. 
+    
+      ``D:\path\of\your\project>``  
+        
+      ``(base) D:\path\of\your\project>``
 
 and execute Python files by
 

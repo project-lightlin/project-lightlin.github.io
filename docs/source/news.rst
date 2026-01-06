@@ -1,6 +1,12 @@
 
 .. title:: What's News
 
+2026-1-6 SmartQSM is now available!
+===================================
+
+Visit https://project-lightlin.github.io/SmartQSM/ for more information.
+
+
 2025-12-30 Our website is now live!
 ===================================
 
