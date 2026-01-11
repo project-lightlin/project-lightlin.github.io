@@ -1,7 +1,7 @@
 
 .. title:: What's News
 
-2026-1-11 Congratulations on the official publication of SmartQSM's work in ISPRSJPRS!
+2026-1-11 Congratulations on the publication of SmartQSM in ISPRSJPRS!
 ======================================================================================
 
 Visit https://www.sciencedirect.com/science/article/pii/S0924271626000110 for more information.
