@@ -137,9 +137,11 @@ Please select the corresponding command based on the result from Step 2 and run 
 
 1. Install `PyTorch <https://pytorch.org/get-started/locally/>`_
 
-.. note::
+.. warning::
 
-    For NVIDIA Blackwell-architecture GPUs (such as RTX 50 series), YOU MUST INSTALL **cu128**! Please refer to `here <https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)#Blackwell_dies>`_ for the specific products included. Otherwise, PyTorch will cause an error like
+    **This step is very easy to choose incorrectly, please read it carefully!**
+
+    For NVIDIA Blackwell-architecture GPUs (such as Geforce RTX 50 series), **YOU MUST INSTALL cu128**! Please refer to `here <https://en.wikipedia.org/wiki/Blackwell_(microarchitecture)#Blackwell_dies>`_ for the specific products included. Otherwise, PyTorch will cause an error like
     
     .. code-block:: bash     
 
@@ -147,7 +149,7 @@ Please select the corresponding command based on the result from Step 2 and run 
         The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_61 sm_70 sm_75 sm_80 sm_86 sm_90 compute_37.
         If you want to use the NVIDIA GeForce RTX 5070 Ti GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
 
-    For NVIDIA non-Blackwell-architecture GPUs, you can choose to install **cu126** or **cu118**, but *DO NOT INSTALL cu128*, otherwise spconv will cause an error like
+    For NVIDIA GPUs prior to the Blackwell architecture (such as Geforce RTX 40 series and earlier), you can choose to install *cu126* or *cu118*, but **DO NOT INSTALL cu128**, otherwise spconv will cause an error like
 
     .. code-block:: bash     
         
